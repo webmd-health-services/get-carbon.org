@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>PowerShell - Convert-XmlFile - Carbon</title>
+    <title>PowerShell - Get-ServiceConfiguration - Carbon</title>
 	<link href="styles.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
@@ -265,47 +265,34 @@
 </div>
 
 
-<h1>Convert-XmlFile</h1>
-<div><p>Transforms an XML document using XDT (XML Document Transformation).</p></div>
+<h1>Get-ServiceConfiguration</h1>
+<div><p>Gets a service's full configuration, e.g. username, path, failure actions, etc.</p></div>
 
 <h2>Syntax</h2>
-<pre class="Syntax"><code>Convert-XmlFile -Path &lt;String&gt; -XdtPath &lt;String&gt; -Destination &lt;String&gt; [-TransformAssemblyPath &lt;String[]&gt;] [-Force] [-WhatIf] [-Confirm] [&lt;CommonParameters&gt;]</code></pre>
-<pre class="Syntax"><code>Convert-XmlFile -Path &lt;String&gt; -XdtXml &lt;XmlDocument&gt; -Destination &lt;String&gt; [-TransformAssemblyPath &lt;String[]&gt;] [-Force] [-WhatIf] [-Confirm] [&lt;CommonParameters&gt;]</code></pre>
+<pre class="Syntax"><code>Get-ServiceConfiguration [-Name] &lt;String&gt; [&lt;CommonParameters&gt;]</code></pre>
     
 <h2>Description</h2>
 <div class="Description">
-<p>An XDT file specifies how to change an XML file from a <em>known</em> beginning state into a new state.  This is usually helpful when deploying IIS websites.  Usually, the website's default web.config file won't work in different environments, and needs to be changed during deployment to reflect settings needed for the target environment.</p>
+<p>The .NET <code>ServiceController</code> object only returns basic information about a service. This function returns a bunch of the missing configuration in the form of a <code>Carbon.Service.ServiceInfo</code> object:</p>
 
-<p>XDT was designed to apply a tranformation against an XML file in a <em>known</em> state.  <strong>Do not use this method to transform an XML file in-place.</strong>  There lies madness, and you will never get that square peg into XDT's round hole.  If you <em>really</em> want to transform in-place, you're responsible for checking if the source/destination file has already been transformed, and if it hasn't, calling <code>Convert-XmlFile</code> to transform to a temporary file, then copying the temporary file onto the source/destination file.</p>
+<ul>
+<li>Account name/user name</li>
+<li>Path</li>
+<li>Description</li>
+<li>Failure actions</li>
+</ul>
 
-<p>You can load custom transformations.  In your XDT XML, use the <code>xdt:Import</code> element to import your transformations.  In your XDT file:</p>
+<p>You can load a specific service using its name, or pipe in <code>ServiceController</code> objects.</p>
 
-<pre><code>&lt;?xml version="1.0"?&gt;
-&lt;root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform"&gt;
-    &lt;!-- You can also use the "assembly" attribute (PowerShell v3 
-         *only*).  In PowerShell v2, you can only use the `path` 
-         attribute.
+<p>In addition to this function, Carbon also adds this information as extended type data properties onto the <code>ServiceController</code> class. To see it, </p>
 
-         All classes in `namespace` that inherit from the XDT 
-         `Transform` class are loaded. --&gt;
-    &lt;xdt:Import path="C:\Projects\Carbon\Lib\ExtraTransforms.dll"
-                namespace="ExtraTransforms" /&gt;
-    &lt;!-- ...snip... --&gt;
-&lt;/root&gt;
+<pre><code>Get-Service | Get-Member
 </code></pre>
 
-<p>You also have to pass the path to your custom transformation assembly as a value to the <code>TransformAssemblyPath</code> parameter. That's it! (Note: Carbon does <em>not</em> ship with any extra transformations.)</p>
-
-<p>When transforming a file, the XDT framework will write warnings and errors to the PowerShell error and warning stream.  Informational and debug messages are written to the verbose stream (i.e. use the <code>Verbose</code> switch to see all the XDT log messages).</p>
+<p>This function is new in Carbon 1.8.</p>
 </div>
     
-<h2>Related Commands</h2>
-<ul>
-<li><a href="http://msdn.microsoft.com/en-us/library/dd465326.aspx">http://msdn.microsoft.com/en-us/library/dd465326.aspx</a></li>
-<li><a href="http://stackoverflow.com/questions/2915329/advanced-tasks-using-web-config-transformation">http://stackoverflow.com/questions/2915329/advanced-tasks-using-web-config-transformation</a></li>
-<li><a href="Set-DotNetConnectionString.html">Set-DotNetConnectionString</a></li>
-<li><a href="Set-DotNetAppSetting.html">Set-DotNetAppSetting</a></li>
-</ul>
+
 
 <h2> Parameters </h2>
 <table border='1'>
@@ -318,77 +305,14 @@
 	<th>Default Value</th>
 </tr>
 <tr valign='top'>
-	<td>Path</td>
+	<td>Name</td>
 	<td><a href="http://msdn.microsoft.com/en-us/library/system.string.aspx">String</a></td>
-	<td>The path of the XML file to convert.</td>
+	<td>The name of the service.</td>
 	<td>true</td>
-	<td>false</td>
+	<td>true (ByPropertyName)</td>
     <td></td>
 </tr>
-<tr valign='top'>
-	<td>XdtPath</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.string.aspx">String</a></td>
-	<td>The path to the XDT file.</td>
-	<td>true</td>
-	<td>false</td>
-    <td></td>
-</tr>
-<tr valign='top'>
-	<td>XdtXml</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.xml.xmldocument.aspx">XmlDocument</a></td>
-	<td>The raw XDT XML to use.</td>
-	<td>true</td>
-	<td>false</td>
-    <td></td>
-</tr>
-<tr valign='top'>
-	<td>Destination</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.string.aspx">String</a></td>
-	<td>The destination XML file's path.</td>
-	<td>true</td>
-	<td>false</td>
-    <td></td>
-</tr>
-<tr valign='top'>
-	<td>TransformAssemblyPath</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.string.aspx">String[]</a></td>
-	<td>List of assemblies to load which contain custom transforms.</td>
-	<td>false</td>
-	<td>false</td>
-    <td>@()</td>
-</tr>
-<tr valign='top'>
-	<td>Force</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.management.automation.switchparameter.aspx">SwitchParameter</a></td>
-	<td>Overwrite the destination file if it exists.</td>
-	<td>false</td>
-	<td>false</td>
-    <td>False</td>
-</tr>
-<tr valign='top'>
-	<td>WhatIf</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.management.automation.switchparameter.aspx">SwitchParameter</a></td>
-	<td></td>
-	<td>false</td>
-	<td>false</td>
-    <td></td>
-</tr>
-<tr valign='top'>
-	<td>Confirm</td>
-	<td><a href="http://msdn.microsoft.com/en-us/library/system.management.automation.switchparameter.aspx">SwitchParameter</a></td>
-	<td></td>
-	<td>false</td>
-	<td>false</td>
-    <td></td>
-</tr>
-<tr valign="top">
-    <td><a href="http://technet.microsoft.com/en-us/library/dd315352.aspx">CommonParameters</a></td>
-    <td></td>
-    <td>This cmdlet supports common parameters.  For more information type <br> <code>Get-Help about_CommonParameters</code>.</td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
+
 </table>
         
 
@@ -398,19 +322,11 @@
 
         
 <h2>EXAMPLE 1</h2>
-<pre><code>Convert-XmlFile -Path ".\web.config" -XdtPath ".\web.debug.config" -Destination '\\webserver\wwwroot\web.config'</code></pre>
-<p>Transforms <code>web.config</code> with the XDT in <code>web.debug.config</code> to a new file at <code>\\webserver\wwwroot\web.config</code>.</p>
+<pre><code>Get-Service | Get-ServiceConfiguration</code></pre>
+<p>Demonstrates how you can pipe in a <code>ServiceController</code> object to load the service.</p>
 
 <h2>EXAMPLE 2</h2>
-<pre><code><connectionStrings><add name=""MyConn"" xdt:Transform=""Insert"" /></connectionStrings></configuration>" -Destination '\\webserver\wwwroot\web.config'</code></pre>
-<p>Transforms <code>web.config</code> with the given XDT XML to a new file at <code>\\webserver\wwwroot\web.config</code>.</p>
-
-<h2>EXAMPLE 3</h2>
-<pre><code>Convert-XmlFile -Path ".\web.config" -XdtPath ".\web.debug.config" -Destination '\\webserver\wwwroot\web.config' -Verbose</code></pre>
-<p>See that <code>Verbose</code> switch? It will show informational/debug messages written by the XDT framework.  Very helpful in debugging what XDT framework is doing.</p>
-
-<h2>EXAMPLE 4</h2>
-<pre><code>Convert-XmlFile -Path ".\web.config" -XdtPath ".\web.debug.config" -Destination '\\webserver\wwwroot\web.config' -TransformAssemblyPath C:\Projects\CustomTransforms.dll</code></pre>
-<p>Shows how to reference a custom transformation assembly.  It should also be loaded in your XDT file via the <code>xdt:Import</code>.</p>
+<pre><code>Get-ServiceConfiguration -Name  'w3svc'</code></pre>
+<p>Demonstrates how you can get a specific service's configuration.</p>
 </body>
 </html>
