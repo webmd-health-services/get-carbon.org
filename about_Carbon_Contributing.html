@@ -14,7 +14,7 @@
         <li><a href="about_Carbon_Support.html">-Support</a></li>
         <li><a href="releasenotes.html">-ReleaseNotes</a></li>
 		<li><a href="http://pshdo.com">-Blog</a></li>
-        <li><a href="http://bitbucket.org/splatteredbits/carbon">-Project</a></li>
+        <li><a href="https://github.com/pshdo/Carbon/">-Project</a></li>
     </ul>
 
         <h1>about_Carbon_Contributing</h1>
@@ -24,30 +24,11 @@
     <h2>Description</h2>
 <p>We welcome your feedback and contributions!  </p>
 
-<p>We use Mercurial for source control. To get the Carbon source code onto your computer,
-run:</p>
+<p><a href="https://github.com/pshdo/Carbon/">Clone the repo from GitHub.</a></p>
 
-<pre><code>PS&gt; hg clone https://bitbucket.org/splatteredbits/carbon
-</code></pre>
-
-<p>We belive in Test-Driven Development (TDD)! If you don't, you won't be happy 
-contributing. Anything you want to submit back to the project must have good tests. 
-If not, it will take longer to accept your contribution, because we'll have to take 
-time to write tests. TDD enables us to release new versions of Carbon as soon changes 
-are committed, pushed, and the tests pass. If the code is ready and works, we want to 
-release it. No waiting! </p>
-
-<p>Blade is our testing framework. It uses NUnit-inspired assertions, e.g. Assert-True, 
-Assert-Equal, etc. See <a href="http://bitbucket.org/splatteredbits/blade">http://bitbucket.org/splatteredbits/blade</a> for more information.</p>
-
-<p>To run Carbon's tests (the full suite takes about 45 minutes), run this command in the 
-root of your Carbon working directory:</p>
-
-<pre><code>PS&gt; .\Invoke-CarbonTest.ps1 -Path .\Test
-</code></pre>
-
-<p>Tests should always clean-up after themselves and strive to leave an operating system 
-in the exact state it was in before the test fixture ran. </p>
+<p>Write tests with Pester. Tests go in the <code>Tests</code> directory. Tests should always 
+clean-up after themselves and strive to leave an operating system in the exact state 
+it was in before the test fixture ran. </p>
 
 <p>Unfortunately, we only have the resources to run our tests on a 64-bit Windows 2012 R2
 and 7 computer. Any donations to the project would be used to purchase licenses and 
@@ -87,9 +68,7 @@ IIS-related functions, Msmq for MSMQ-related functions, etc.</p>
 <p>All functions must have synopsis, description, and example documentation.</p>
 <h2>See Also</h2>
     <ul>
-        <li><a href="https://bitbucket.org/splatteredbits/carbon">https://bitbucket.org/splatteredbits/carbon</a></li>
-<li><a href="https://bitbucket.org/splatteredbits/blade">https://bitbucket.org/splatteredbits/blade</a></li>
-<li><a href="http://mercurial.selenic.com">http://mercurial.selenic.com</a></li>
+        <li><a href="https://github.com/pshdo/Carbon/">https://github.com/pshdo/Carbon/</a></li>
     </ul>
 
 
