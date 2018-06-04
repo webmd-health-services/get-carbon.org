@@ -25,7 +25,7 @@
 <h2>Syntax</h2>
 <pre class="Syntax"><code>Get-Certificate -FriendlyName &lt;String&gt; -StoreLocation {CurrentUser | LocalMachine} -StoreName {AddressBook | AuthRoot | CertificateAuthority | Disallowed | My | Root | TrustedPeople | TrustedPublisher} [&lt;CommonParameters&gt;]</code></pre>
 <pre class="Syntax"><code></code></pre>
-<pre class="Syntax"><code>Get-Certificate -Path &lt;String&gt; [-Password &lt;Object&gt;] [-KeyStorageFlags {DefaultKeySet | UserKeySet | MachineKeySet | Exportable | UserProtected | PersistKeySet}] [&lt;CommonParameters&gt;]</code></pre>
+<pre class="Syntax"><code>Get-Certificate -Path &lt;String&gt; [-Password &lt;Object&gt;] [-KeyStorageFlags {DefaultKeySet | UserKeySet | MachineKeySet | Exportable | UserProtected | PersistKeySet | EphemeralKeySet}] [&lt;CommonParameters&gt;]</code></pre>
 <pre class="Syntax"><code></code></pre>
 <pre class="Syntax"><code>Get-Certificate -Thumbprint &lt;String&gt; -StoreLocation {CurrentUser | LocalMachine} -CustomStoreName &lt;String&gt; [&lt;CommonParameters&gt;]</code></pre>
 <pre class="Syntax"><code></code></pre>
@@ -148,7 +148,7 @@
 
 
 	<div class="Footer">
-		Copyright 2012 - 2017 <a href="http://pshdo.com">Aaron Jensen</a>.
+		Copyright 2012 - 2018 <a href="http://pshdo.com">Aaron Jensen</a>.
 	</div>
 
 </body>
